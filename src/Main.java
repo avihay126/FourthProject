@@ -2,11 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("blah blah bl;ah");
-        System.out.println("commit from shir elfasi - please delete");
         chooseOption();
-
-
     }
 
     public static void printMenu() {
