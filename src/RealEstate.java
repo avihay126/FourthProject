@@ -6,8 +6,12 @@ public class RealEstate {
     private Property[] properties;
 
     public RealEstate(){
+        Address address =new Address(null,null);
         this.users=new User[0];
-        this.addresses=new Address[0];
+        this.addresses=new Address[10];
+        for (int i=0;i<this.addresses.length;i++){
+            addresses[i]=new Address(address.cityArray(i),address.streetArray(i));
+        }
         this.properties=new Property[0];
     }
 
@@ -33,6 +37,7 @@ public class RealEstate {
     public void setProperties(Property[] properties) {
         this.properties = properties;
     }
+
     public void createUser(){
         User[]newArray = new User[this.users.length+1];
         for (int i =0;i<this.users.length;i++){
@@ -139,11 +144,61 @@ public class RealEstate {
         return isMediator;
     }
 
-//    public User login(){
-//        User user=null;
-//
-//
-//    }
+    public User login(){
+        Scanner scanner=new Scanner(System.in);
+        User user=null;
+        System.out.print("UserName: ");
+        String userName=scanner.nextLine();
+        System.out.print("Password: ");
+        String password= scanner.nextLine();
+        for (int i=0;i<this.users.length;i++){
+            if (this.users[i].getUserName().equals(userName)&&this.users[i].getPassword().equals(password)){
+                user=users[i];
+            }
+        }
+        return user;
+    }
+    public void internalMenu(){
+        System.out.println("1- Posting a new property: \n" +
+                "2- Remove property posting: \n" +
+                "3- View all property in the system: \n" +
+                "4- View all self-posted properties: \n" +
+                "5- Property search by parameters\n" +
+                "6- Log out: ");
+    }
+
+    public void internalOptions(User user){
+        Scanner scanner = new Scanner(System.in);
+        boolean run = true;
+        int choose;
+        while (run) {
+            internalMenu();
+            choose=scanner.nextInt();
+            switch (choose){
+                case 1:
+                    postNewProperty(user);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    System.out.println("Bye for now!");
+                    run=false;
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+            }
+        }
+    }
+    private boolean postNewProperty(User user){
+
+    }
+    private boolean
 
 
 }

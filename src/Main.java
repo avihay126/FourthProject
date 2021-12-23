@@ -22,7 +22,12 @@ public class Main {
                     realEstate.createUser();
                     break;
                 case 2:
-                    realEstate.login();
+                    User user=realEstate.login();
+                    if (user==null){
+                        System.out.println("Invalid User");
+                    }else {
+                        realEstate.internalOptions(user);
+                    }
                     break;
                 case 3:
                     System.out.println("GoodBye!");
