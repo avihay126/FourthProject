@@ -197,6 +197,7 @@ public class RealEstate {
     }
     private boolean postNewProperty(User user){
 
+        return
     }
     private boolean
 
