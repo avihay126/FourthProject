@@ -34,7 +34,7 @@ public class Address {
         if (i>5){
             i=i-6;
         }
-        String streetArray[]={"Hertzel","Rabin","Begin","Dizingov","shamgar ben anat","mishol shimshon"};
+        String streetArray[]={"Hertzel","Rabin","Begin","Dizingov","Shamgar Ben Anat","Mishol Shimshon"};
         return streetArray[i];
     }
 

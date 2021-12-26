@@ -196,10 +196,165 @@ public class RealEstate {
         }
     }
     private boolean postNewProperty(User user){
-
-        return
+        boolean newProperty=false;
+        if (!isCanPost(user)){
+            System.out.println("You have reached the posting limit!");
+        }else{
+            String cityName=chooseCity();
+            if (cityName!= null) {
+                String streetName = chooseStreet(cityName);
+                if (streetName!=null){
+                    Address address = new Address(cityName, streetName);
+                    addPropertyToArray(typeOfProperty(address, user));
+                    newProperty = true;
+                }
+            }
+        }
+        return newProperty;
     }
-    private boolean
+    private boolean isCanPost(User user){
+        boolean canPost=true;
+        int counter=0;
+        for (int i =0;i<this.properties.length;i++){
+            if (user.equals(this.properties[i].getUserWhoPostedTheProperty())){
+                counter++;
+            }
+        }
+        if (user.isMediatorOrRegular()&&counter==10){
+            canPost=false;
+        }else if (!user.isMediatorOrRegular()&&counter>=3){
+            canPost=false;
+        }
+        return canPost;
+    }
+    private String[] citiesName(){
+        String [] cityArray=new String[this.addresses.length];
+        int counter=this.addresses.length;
+        int cityArrayIndex=0;
+        for (int i=0;i<this.addresses.length;i++){
+            for (int j=i+1;j<this.addresses.length;j++){
+                if (this.addresses[i].getCityName().equals(this.addresses[j].getCityName())){
+                    counter--;
+                    break;
+                }else if (j==this.addresses.length-1){
+                    cityArray[cityArrayIndex]=this.addresses[i].getCityName();
+                    cityArrayIndex++;
+                }
+            }
+            if (i==this.addresses.length-1){
+                cityArray[cityArrayIndex]=this.addresses[i].getCityName();
+            }
+
+        }
+        String[] newCityArray =new String[counter];
+        for (int i=0;i<newCityArray.length;i++){
+            newCityArray[i]=cityArray[i];
+            System.out.println(newCityArray[i]);
+        }
+        return newCityArray;
+    }
+    private String chooseCity(){
+        Scanner scanner=new Scanner(System.in);
+        boolean isEqual=false;
+        System.out.println("Choose city: ");
+        String[] cityArray=citiesName();
+        String cityName=scanner.nextLine();
+        for (int i=0;i<cityArray.length;i++){
+            if (cityName.equals(cityArray[i])){
+                isEqual=true;
+                break;
+            }
+        }
+        if (!isEqual){
+            System.out.println("This city name is not in the list.");
+            cityName=null;
+        }
+        return cityName;
+    }
+    private String[] streetName(String cityName){
+        String[] streetName= new String[this.addresses.length];
+        int counter=0;
+        int indexStreetName=0;
+        for (int i=0;i<this.addresses.length;i++){
+            if (cityName.equals(this.addresses[i].getCityName())){
+                streetName[indexStreetName]=this.addresses[i].getStreetName();
+                indexStreetName++;
+                counter++;
+            }
+        }
+        String[] newStreetName=new String[counter];
+        for (int i=0;i<newStreetName.length;i++){
+            newStreetName[i]=streetName[i];
+            System.out.println(streetName[i]);
+        }
+        return newStreetName;
+    }
+    private String chooseStreet(String cityName){
+        Scanner scanner=new Scanner(System.in);
+        boolean isEqual=false;
+        System.out.println("Choose street: ");
+        String[] streets=streetName(cityName);
+        String streetName=scanner.nextLine();
+        for (int i=0;i<streets.length;i++){
+            if (streetName.equals(streets[i])){
+                isEqual=true;
+                break;
+            }
+        }
+        if (!isEqual){
+            System.out.println("This street name is not in the list.");
+            streetName=null;
+        }
+        return streetName;
+    }
+    private Property typeOfProperty(Address address,User user){
+        Property property=new Property();
+        Scanner scanner=new Scanner(System.in);
+        property.setUserWhoPostedTheProperty(user);
+        property.setAddress(address);
+        int choose;
+        do {
+            System.out.println("1- Regular apartment. \n" +
+                    "2- Penthouse. \n" +
+                    "3- Private house.");
+            choose=scanner.nextInt();
+            if (choose==1){
+                property.setTypeOfProperty("Regular apartment");
+            }else if (choose==2){
+                property.setTypeOfProperty("Penthouse");
+            }else if (choose==3){
+                property.setTypeOfProperty("Private house");
+            }
+            if (choose==1||choose==2){
+                System.out.println("Choose floor:");
+                property.setFloorNumber(scanner.nextInt());
+            }
+        }while (choose<1||choose>3);
+        System.out.println("Number of rooms:");
+        property.setNumOfRooms(scanner.nextInt());
+        System.out.println("House number");
+        property.setHouseNumber(scanner.nextInt());
+        System.out.println("0-For rent:\nOther number-For sale:");
+        int option=scanner.nextInt();
+        if (option==0){
+            property.setForRent(true);
+        }else {
+            property.setForRent(false);
+        }
+        System.out.println("Price:");
+        property.setPrice(scanner.nextInt());
+        return property;
+    }
+    private void addPropertyToArray(Property property){
+        Property[] newArray =new Property[this.properties.length+1];
+        for (int i=0;i<this.properties.length;i++){
+            newArray[i]=this.properties[i];
+        }
+        newArray[this.properties.length]=property;
+        this.properties=newArray;
+    }
+
+
 
 
 }
