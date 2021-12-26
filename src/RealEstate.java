@@ -179,6 +179,7 @@ public class RealEstate {
                     postNewProperty(user);
                     break;
                 case 2:
+                    System.out.println("delete");
                     break;
                 case 3:
                     break;
