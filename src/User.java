@@ -36,6 +36,6 @@ public class User {
         this.mediatorOrRegular=mediatorOrRegular;
     }
     public String toString(){
-        return "UserName: "+this.userName+"\nPassword: "+this.password+"\nPhoneNumber: "+this.phoneNumber+"\nRole: "+(this.mediatorOrRegular ? "(real estate broker)":"(regular user)");
+        return this.userName+" "+this.phoneNumber+" "+(this.mediatorOrRegular ? "(real estate broker)":"(regular user)");
     }
 }

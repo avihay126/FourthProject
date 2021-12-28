@@ -179,16 +179,18 @@ public class RealEstate {
                     postNewProperty(user);
                     break;
                 case 2:
-                    System.out.println("delete");
+                    removeProperty(user);
                     break;
                 case 3:
+                    printAllProperties();
                     break;
                 case 4:
+                    printAllProperties(user);
                     break;
                 case 5:
                     break;
                 case 6:
-                    System.out.println("Bye for now!");
+                    System.out.println("Bye for now!\n");
                     run=false;
                     break;
                 default:
@@ -199,7 +201,7 @@ public class RealEstate {
     private boolean postNewProperty(User user){
         boolean newProperty=false;
         if (!isCanPost(user)){
-            System.out.println("You have reached the posting limit!");
+            System.out.println("You have reached the posting limit!\n");
         }else{
             String cityName=chooseCity();
             if (cityName!= null) {
@@ -320,10 +322,13 @@ public class RealEstate {
                     "3- Private house.");
             choose=scanner.nextInt();
             if (choose==1){
+                property.setPrivateOrApartment(true);
                 property.setTypeOfProperty("Regular apartment");
             }else if (choose==2){
+                property.setPrivateOrApartment(true);
                 property.setTypeOfProperty("Penthouse");
             }else if (choose==3){
+                property.setPrivateOrApartment(false);
                 property.setTypeOfProperty("Private house");
             }
             if (choose==1||choose==2){
@@ -354,6 +359,72 @@ public class RealEstate {
         newArray[this.properties.length]=property;
         this.properties=newArray;
     }
+
+    private void removeProperty(User user){
+        int numberOfOwnedProperties=printAllUserProperties(user);
+        if (numberOfOwnedProperties!=0){
+            choosePropertyToRemove(user,numberOfOwnedProperties);
+        }
+    }
+    private int printAllUserProperties(User user){
+        int counter=0;
+        for (int i=0;i<this.properties.length;i++){
+            if (user.equals(this.properties[i].getUserWhoPostedTheProperty())){
+                counter++;
+                System.out.println(counter+".\n"+ properties[i]+"\n");
+            }
+        }
+        if (counter==0){
+            System.out.println("There are no user-owned properties.\n");
+        }
+        return counter;
+    }
+    private void choosePropertyToRemove(User user,int numberOfOwnedProperties){
+        Scanner scanner=new Scanner(System.in);
+        int propertyToRemove;
+        do {
+            System.out.println("Choose property to remove: ");
+            propertyToRemove=scanner.nextInt();
+        }while (propertyToRemove<1||propertyToRemove>numberOfOwnedProperties);
+        int counter=0;
+        for (int i=0;i<this.properties.length;i++){
+            if (user.equals(this.properties[i].getUserWhoPostedTheProperty())){
+                counter++;
+                if (propertyToRemove==counter){
+                    removePropertyFromArray(this.properties[i]);
+                    System.out.println("The selected property was deleted.\n");
+                }
+            }
+        }
+    }
+    private void removePropertyFromArray(Property property){
+        Property[]newArray=new Property[this.properties.length-1];
+        int newArrayIndex=0;
+        for (int i=0;i<this.properties.length;i++){
+            if (this.properties[i]!=property) {
+                newArray[newArrayIndex] = this.properties[i];
+                newArrayIndex++;
+            }
+        }
+        this.properties=newArray;
+    }
+    private void printAllProperties(User user){
+        printAllUserProperties(user);
+    }
+    private void printAllProperties(){
+        if (this.properties.length==0){
+            System.out.println("There are no properties in the system.\n");
+
+        }else {
+            for (int i=0;i<this.properties.length;i++){
+                System.out.println(i+1+".\n"+this.properties[i]+"\n");
+            }
+        }
+    }
+    private Property[] search(){
+
+    }
+
 
 
 

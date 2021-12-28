@@ -3,10 +3,15 @@ public class Property {
     private int numOfRooms;
     private int price;
     private String typeOfProperty;
+    private boolean privateOrApartment;
     private boolean forRent;
     private int houseNumber;
     private int floorNumber;
     private User userWhoPostedTheProperty;
+
+    public Property(){
+
+    }
 
     public Address getAddress(){
         return this.address;
@@ -32,6 +37,13 @@ public class Property {
     public void setTypeOfProperty(String typeOfProperty){
         this.typeOfProperty=typeOfProperty;
     }
+    public boolean isPrivateOrApartment(){
+        return this.privateOrApartment;
+    }
+    public void setPrivateOrApartment(boolean privateOrApartment){
+        this.privateOrApartment=privateOrApartment;
+    }
+
     public boolean isForRent(){
         return this.forRent;
     }
@@ -57,7 +69,7 @@ public class Property {
         this.userWhoPostedTheProperty=userWhoPostedTheProperty;
     }
     public String toString(){
-        return this.typeOfProperty+"-"+(this.forRent ? "for rent":"for sale")+": "+this.numOfRooms+" rooms, floor "+this.floorNumber+"." +
+        return this.typeOfProperty+"-"+(this.forRent ? "for rent":"for sale")+": "+this.numOfRooms+" rooms"+(this.privateOrApartment? ", floor "+this.floorNumber+".":".")+
                 "\nPrice: "+this.price+"$" +
                 "\nContact info: "+this.userWhoPostedTheProperty;
     }
