@@ -188,6 +188,7 @@ public class RealEstate {
                     printAllProperties(user);
                     break;
                 case 5:
+                    search();
                     break;
                 case 6:
                     System.out.println("Bye for now!\n");
@@ -391,22 +392,11 @@ public class RealEstate {
             if (user.equals(this.properties[i].getUserWhoPostedTheProperty())){
                 counter++;
                 if (propertyToRemove==counter){
-                    removePropertyFromArray(this.properties[i]);
+                    this.properties=removePropertyFromArray(this.properties[i],this.properties);
                     System.out.println("The selected property was deleted.\n");
                 }
             }
         }
-    }
-    private void removePropertyFromArray(Property property){
-        Property[]newArray=new Property[this.properties.length-1];
-        int newArrayIndex=0;
-        for (int i=0;i<this.properties.length;i++){
-            if (this.properties[i]!=property) {
-                newArray[newArrayIndex] = this.properties[i];
-                newArrayIndex++;
-            }
-        }
-        this.properties=newArray;
     }
     private void printAllProperties(User user){
         printAllUserProperties(user);
@@ -422,7 +412,63 @@ public class RealEstate {
         }
     }
     private Property[] search(){
+        Scanner scanner =new Scanner(System.in);
+        Property[] searchArray=this.properties;
+        int choose;
+        int minPrice;
+        int maxPrice;
+        do {
+            System.out.println("1- For Rent:\n2- For Sale\n -999 - For ignore.");
+            choose=scanner.nextInt();
+        }while ((choose<1||choose>2)&&choose!=-999);
+        if (choose==1){
+            for (int i=0;i<searchArray.length;i++){
+                if (!searchArray[i].isForRent()){
+                    searchArray=removePropertyFromArray(searchArray[i],searchArray);
+                }
+            }
+        }else if (choose==2){
+            for (int i=0;i<searchArray.length;i++){
+                if (searchArray[i].isForRent()){
+                    searchArray=removePropertyFromArray(searchArray[i],searchArray);
+                }
+            }
+        }
+        do {
+            System.out.println("1- Regular apartment. \n" +
+                    "2- Penthouse. \n" +
+                    "3- Private house.\n-999 - For ignore.");
+            choose=scanner.nextInt();
+        }while ((choose<1||choose>3)&&choose!=-999);
+        if (choose==1){
+            for (int i=0;i<searchArray.length;i++){
+                if (searchArray[i].getTypeOfProperty().equals("Penthouse")||
+                        searchArray[i].getTypeOfProperty().equals("Private house")){
+                    searchArray=removePropertyFromArray(searchArray[i],searchArray);
+                }
+            }
+        }
+        System.out.println("Number of rooms:\n-999 - For ignore. ");
+        choose=scanner.nextInt();
+        System.out.println("Price range(min-max):\n-999 - For ignore.");
+        System.out.print("Minimum price: ");
+        minPrice=scanner.nextInt();
+        System.out.print("Maximum price: ");
+        maxPrice=scanner.nextInt();
+        return this.properties;
 
+    }
+
+    private Property[] removePropertyFromArray(Property property, Property[]properties){
+        Property[] newArray=new Property[properties.length-1];
+        int newArrayIndex=0;
+        for (int i=0;i<properties.length;i++){
+            if (property!=properties[i]){
+                newArray[newArrayIndex]=properties[i];
+                newArrayIndex++;
+            }
+        }
+        return newArray;
     }
 
 
