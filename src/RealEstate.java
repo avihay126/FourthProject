@@ -5,12 +5,12 @@ public class RealEstate {
     private Address[] addresses;
     private Property[] properties;
 
-    private final int NO_TO_USE=-999;
+    private final int NO_TO_USE=-999, SIZE_ARRAY_ADDRESS=10;
 
     public RealEstate(){
         Address address =new Address(null,null);
         this.users=new User[0];
-        this.addresses=new Address[10];
+        this.addresses=new Address[SIZE_ARRAY_ADDRESS];
         for (int i=0;i<this.addresses.length;i++){
             addresses[i]=new Address(address.cityArray(i),address.streetArray(i));
         }
