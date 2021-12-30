@@ -1,11 +1,11 @@
 import java.util.Scanner;
-
 public class Main {
+
+    public static final int REGISTER=1, LOGIN=2, FINISH_THE_PROGRAM=3;
 
     public static void main(String[] args) {
         chooseOption();
     }
-
     public static void printMenu() {
         System.out.println("1- Register: \n2- Sign in: \n3- Finish the program:");
     }
@@ -19,10 +19,10 @@ public class Main {
             printMenu();
             choose = scanner.nextInt();
             switch (choose) {
-                case 1:
+                case REGISTER:
                     realEstate.createUser();
                     break;
-                case 2:
+                case LOGIN:
                     User user=realEstate.login();
                     if (user==null){
                         System.out.println("Invalid User");
@@ -30,7 +30,7 @@ public class Main {
                         realEstate.internalOptions(user);
                     }
                     break;
-                case 3:
+                case FINISH_THE_PROGRAM:
                     System.out.println("GoodBye!");
                     run=false;
                     break;

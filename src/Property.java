@@ -9,7 +9,16 @@ public class Property {
     private int floorNumber;
     private User userWhoPostedTheProperty;
 
-    public Property(){
+    public Property(Address address, int numOfRooms, int price, String typeOfProperty,boolean privateOrApartment, boolean forRent, int houseNumber, int floorNumber, User user){
+        this.address=address;
+        this.numOfRooms=numOfRooms;
+        this.price=price;
+        this.typeOfProperty=typeOfProperty;
+        this.privateOrApartment=privateOrApartment;
+        this.forRent=forRent;
+        this.houseNumber=houseNumber;
+        this.floorNumber=floorNumber;
+        this.userWhoPostedTheProperty=user;
 
     }
 
@@ -43,7 +52,6 @@ public class Property {
     public void setPrivateOrApartment(boolean privateOrApartment){
         this.privateOrApartment=privateOrApartment;
     }
-
     public boolean isForRent(){
         return this.forRent;
     }

@@ -5,16 +5,22 @@ public class RealEstate {
     private Address[] addresses;
     private Property[] properties;
 
-    private final int NO_TO_USE=-999, SIZE_ARRAY_ADDRESS=10;
+    private final int NO_TO_USE=-999, SIZE_ARRAY_ADDRESS=10, START_ARRAY_SIZE=0,
+            POSTING_NEW_PROPERTY=1,REMOVE_PROPERTY_POSTING=2,VIEW_ALL_PROPERTY_IN_THE_SYSTEM=3,VIEW_ALL_SELF_POSTED_PROPERTY=4,
+            PROPERTY_SEARCH_BY_PARAMETER=5,LOG_OUT=6,REAL_ESTATE_BROKER=1,REGULAR_USER=2,PHONE_NUMBER_LENGTH=10,
+            INDEX_ZERO_PHONE_NUMBER=0,INDEX_ONE_PHONE_NUMBER=1,MAX_POSTED_PROPERTIES_BROKER=10,MAX_POSTED_PROPERTIES_REGULAR=3,
+            CHOOSE_REGULAR_APARTMENT =1, CHOOSE_PENTHOUSE =2, CHOOSE_PRIVATE_HOUSE =3,FOR_RENT=0,MIN_CHOOSE_OPTION=1,CHOOSE_FO_RENT=1,
+            CHOOSE_FOR_SALE=2,MINIMUM_ROOM_NUMBER=0, MIN_PRICE =0;
+
 
     public RealEstate(){
         Address address =new Address(null,null);
-        this.users=new User[0];
+        this.users=new User[START_ARRAY_SIZE];
         this.addresses=new Address[SIZE_ARRAY_ADDRESS];
         for (int i=0;i<this.addresses.length;i++){
             addresses[i]=new Address(address.cityArray(i),address.streetArray(i));
         }
-        this.properties=new Property[0];
+        this.properties=new Property[START_ARRAY_SIZE];
     }
 
     public User[] getUsers() {
@@ -104,8 +110,8 @@ public class RealEstate {
     }
     private boolean isProperPhoneNumber(String phoneNumber){
         boolean isProper =false;
-        if (phoneNumber.length()==10&& phoneNumber.charAt(0)=='0'
-        &&phoneNumber.charAt(1)=='5'){
+        if (phoneNumber.length()==PHONE_NUMBER_LENGTH&& phoneNumber.charAt(INDEX_ZERO_PHONE_NUMBER)=='0'
+        &&phoneNumber.charAt(INDEX_ONE_PHONE_NUMBER)=='5'){
             for (int i =2;i<phoneNumber.length();i++){
                 char currentChar= phoneNumber.charAt(i);
                 if (!Character.isDigit(currentChar)){
@@ -131,11 +137,11 @@ public class RealEstate {
                     "2- Regular user :");
             choose = scanner.nextInt();
             switch (choose) {
-                case 1:
+                case REAL_ESTATE_BROKER:
                     isMediator = true;
                     run=true;
                     break;
-                case 2:
+                case REGULAR_USER:
                     isMediator = false;
                     run=true;
                     break;
@@ -177,22 +183,22 @@ public class RealEstate {
             internalMenu();
             choose=scanner.nextInt();
             switch (choose){
-                case 1:
+                case POSTING_NEW_PROPERTY:
                     postNewProperty(user);
                     break;
-                case 2:
+                case REMOVE_PROPERTY_POSTING:
                     removeProperty(user);
                     break;
-                case 3:
+                case VIEW_ALL_PROPERTY_IN_THE_SYSTEM:
                     printAllProperties(this.properties);
                     break;
-                case 4:
+                case VIEW_ALL_SELF_POSTED_PROPERTY:
                     printAllProperties(user);
                     break;
-                case 5:
+                case PROPERTY_SEARCH_BY_PARAMETER:
                     search();
                     break;
-                case 6:
+                case LOG_OUT:
                     System.out.println("Bye for now!\n");
                     run=false;
                     break;
@@ -226,9 +232,9 @@ public class RealEstate {
                 counter++;
             }
         }
-        if (user.isMediatorOrRegular()&&counter==10){
+        if (user.isMediatorOrRegular()&&counter==MAX_POSTED_PROPERTIES_BROKER){
             canPost=false;
-        }else if (!user.isMediatorOrRegular()&&counter>=3){
+        }else if (!user.isMediatorOrRegular()&&counter>=MAX_POSTED_PROPERTIES_REGULAR){
             canPost=false;
         }
         return canPost;
@@ -314,44 +320,45 @@ public class RealEstate {
         return streetName;
     }
     private Property typeOfProperty(Address address,User user){
-        Property property=new Property();
         Scanner scanner=new Scanner(System.in);
-        property.setUserWhoPostedTheProperty(user);
-        property.setAddress(address);
         int choose;
+        String typeOfProperty=null;
+        int floorNumber=0;
+        boolean privateOrApartment=false;
         do {
             System.out.println("1- Regular apartment. \n" +
                     "2- Penthouse. \n" +
                     "3- Private house.");
             choose=scanner.nextInt();
-            if (choose==1){
-                property.setPrivateOrApartment(true);
-                property.setTypeOfProperty("Regular apartment");
-            }else if (choose==2){
-                property.setPrivateOrApartment(true);
-                property.setTypeOfProperty("Penthouse");
-            }else if (choose==3){
-                property.setPrivateOrApartment(false);
-                property.setTypeOfProperty("Private house");
-            }
-            if (choose==1||choose==2){
+            if (choose== CHOOSE_REGULAR_APARTMENT ||choose== CHOOSE_PENTHOUSE){
+                privateOrApartment=true;
+                if (choose== CHOOSE_REGULAR_APARTMENT){
+                    typeOfProperty="Regular apartment";
+                }else {
+                    typeOfProperty="Penthouse";
+                }
                 System.out.println("Choose floor:");
-                property.setFloorNumber(scanner.nextInt());
+                floorNumber=scanner.nextInt();
             }
-        }while (choose<1||choose>3);
+            else if (choose== CHOOSE_PRIVATE_HOUSE){
+                typeOfProperty="Private house";
+            }
+        }while (choose< CHOOSE_REGULAR_APARTMENT ||choose> CHOOSE_PRIVATE_HOUSE);
         System.out.println("Number of rooms:");
-        property.setNumOfRooms(scanner.nextInt());
+        int numOfRooms=scanner.nextInt();
         System.out.println("House number");
-        property.setHouseNumber(scanner.nextInt());
+        int houseNumber=scanner.nextInt();
         System.out.println("0-For rent:\nOther number-For sale:");
         int option=scanner.nextInt();
-        if (option==0){
-            property.setForRent(true);
+        boolean forRent;
+        if (option==FOR_RENT){
+            forRent=true;
         }else {
-            property.setForRent(false);
+            forRent=false;
         }
         System.out.println("Price:");
-        property.setPrice(scanner.nextInt());
+        int price =scanner.nextInt();
+        Property property=new Property(address,numOfRooms,price,typeOfProperty,privateOrApartment,forRent,houseNumber,floorNumber,user);
         return property;
     }
     private void addPropertyToArray(Property property){
@@ -388,7 +395,7 @@ public class RealEstate {
         do {
             System.out.println("Choose property to remove: ");
             propertyToRemove=scanner.nextInt();
-        }while (propertyToRemove<1||propertyToRemove>numberOfOwnedProperties);
+        }while (propertyToRemove<MIN_CHOOSE_OPTION||propertyToRemove>numberOfOwnedProperties);
         int counter=0;
         for (int i=0;i<this.properties.length;i++){
             if (user.equals(this.properties[i].getUserWhoPostedTheProperty())){
@@ -422,19 +429,19 @@ public class RealEstate {
         do {
             System.out.println("1- For Rent:\n2- For Sale\n -999 - For ignore.");
             choose=scanner.nextInt();
-        }while ((choose<1||choose>2)&&choose!=NO_TO_USE);
-        if (choose==1){
+        }while ((choose<CHOOSE_FO_RENT||choose>CHOOSE_FOR_SALE)&&choose!=NO_TO_USE);
+        if (choose==CHOOSE_FO_RENT){
             for (int i=0;i<searchArray.length;i++){
                 if (!searchArray[i].isForRent()){
                     searchArray=removePropertyFromArray(searchArray[i],searchArray);
-                    i=0;
+                    i=i-1;
                 }
             }
-        }else if (choose==2){
+        }else if (choose==CHOOSE_FOR_SALE){
             for (int i=0;i<searchArray.length;i++){
                 if (searchArray[i].isForRent()){
                     searchArray=removePropertyFromArray(searchArray[i],searchArray);
-                    i=0;
+                    i=i-1;
                 }
             }
         }do {
@@ -442,41 +449,38 @@ public class RealEstate {
                     "2- Penthouse. \n" +
                     "3- Private house.\n-999 - For ignore.");
             choose=scanner.nextInt();
-        }while ((choose<1||choose>3)&&choose!=NO_TO_USE);
-        if (choose==1){
+        }while ((choose<CHOOSE_REGULAR_APARTMENT||choose>CHOOSE_PRIVATE_HOUSE)&&choose!=NO_TO_USE);
+        if (choose==CHOOSE_REGULAR_APARTMENT){
             for (int i=0;i<searchArray.length;i++){
-                if (searchArray[i].getTypeOfProperty().equals("Penthouse")||
-                        searchArray[i].getTypeOfProperty().equals("Private house")){
+                if (!searchArray[i].getTypeOfProperty().equals("Regular apartment")){
                     searchArray=removePropertyFromArray(searchArray[i],searchArray);
-                    i=0;
+                    i=i-1;
                 }
             }
-        }else if (choose==2){
+        }else if (choose==CHOOSE_PENTHOUSE){
             for (int i=0;i<searchArray.length;i++){
-                if (searchArray[i].getTypeOfProperty().equals("Regular apartment")||
-                        searchArray[i].getTypeOfProperty().equals("Private house")){
+                if (!searchArray[i].getTypeOfProperty().equals("Penthouse")){
                     searchArray=removePropertyFromArray(searchArray[i],searchArray);
-                    i=0;
+                    i=i-1;
                 }
             }
-        }else if (choose==3){
+        }else if (choose==CHOOSE_PRIVATE_HOUSE){
             for (int i=0;i<searchArray.length;i++){
-                if (searchArray[i].getTypeOfProperty().equals("Regular apartment")||
-                        searchArray[i].getTypeOfProperty().equals("Penthouse")){
+                if (!searchArray[i].getTypeOfProperty().equals("Private house")){
                     searchArray=removePropertyFromArray(searchArray[i],searchArray);
-                    i=0;
+                    i=i-1;
                 }
             }
         }
         do {
             System.out.println("Number of rooms:\n-999 - For ignore. ");
             choose=scanner.nextInt();
-        }while (choose<=0&&choose!=NO_TO_USE);
+        }while (choose<=MINIMUM_ROOM_NUMBER&&choose!=NO_TO_USE);
         if (choose!=NO_TO_USE) {
             for (int i = 0; i < searchArray.length; i++) {
                 if (choose != searchArray[i].getNumOfRooms()) {
                     searchArray = removePropertyFromArray(searchArray[i], searchArray);
-                    i = 0;
+                    i = i-1;
                 }
             }
         }
@@ -486,12 +490,12 @@ public class RealEstate {
             minPrice=scanner.nextInt();
             System.out.print("Maximum price: ");
             maxPrice=scanner.nextInt();
-        }while (((maxPrice<0||minPrice<0)&&(maxPrice!=NO_TO_USE&&minPrice!=NO_TO_USE))&&maxPrice<minPrice);
+        }while (((maxPrice< MIN_PRICE ||minPrice< MIN_PRICE)&&(maxPrice!=NO_TO_USE&&minPrice!=NO_TO_USE))&&maxPrice<minPrice);
         if (minPrice!=NO_TO_USE&&maxPrice!=NO_TO_USE) {
             for (int i = 0; i < searchArray.length; i++) {
                 if (searchArray[i].getPrice() < minPrice || searchArray[i].getPrice() > maxPrice) {
                     searchArray = removePropertyFromArray(searchArray[i], searchArray);
-                    i = 0;
+                    i = i-1;
                 }
             }
         }
@@ -512,9 +516,5 @@ public class RealEstate {
         }
         return newArray;
     }
-
-
-
-
 
 }
