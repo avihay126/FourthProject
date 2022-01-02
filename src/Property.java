@@ -9,76 +9,94 @@ public class Property {
     private int floorNumber;
     private User userWhoPostedTheProperty;
 
-    public Property(Address address, int numOfRooms, int price, String typeOfProperty,boolean privateOrApartment, boolean forRent, int houseNumber, int floorNumber, User user){
-        this.address=address;
-        this.numOfRooms=numOfRooms;
-        this.price=price;
-        this.typeOfProperty=typeOfProperty;
-        this.privateOrApartment=privateOrApartment;
-        this.forRent=forRent;
-        this.houseNumber=houseNumber;
-        this.floorNumber=floorNumber;
-        this.userWhoPostedTheProperty=user;
+    public Property(Address address, int numOfRooms, int price, String typeOfProperty, boolean privateOrApartment, boolean forRent, int houseNumber, int floorNumber, User user) {
+        this.address = address;
+        this.numOfRooms = numOfRooms;
+        this.price = price;
+        this.typeOfProperty = typeOfProperty;
+        this.privateOrApartment = privateOrApartment;
+        this.forRent = forRent;
+        this.houseNumber = houseNumber;
+        this.floorNumber = floorNumber;
+        this.userWhoPostedTheProperty = user;
 
     }
 
-    public Address getAddress(){
+    public Address getAddress() {
         return this.address;
     }
-    public void setAddress(Address address){
-        this.address=address;
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
-    public int getNumOfRooms(){
+
+    public int getNumOfRooms() {
         return this.numOfRooms;
     }
-    public void setNumOfRooms(int numOfRooms){
-        this.numOfRooms=numOfRooms;
+
+    public void setNumOfRooms(int numOfRooms) {
+        this.numOfRooms = numOfRooms;
     }
-    public int getPrice(){
+
+    public int getPrice() {
         return this.price;
     }
-    public void setPrice(int price){
-        this.price=price;
+
+    public void setPrice(int price) {
+        this.price = price;
     }
-    public String getTypeOfProperty(){
+
+    public String getTypeOfProperty() {
         return this.typeOfProperty;
     }
-    public void setTypeOfProperty(String typeOfProperty){
-        this.typeOfProperty=typeOfProperty;
+
+    public void setTypeOfProperty(String typeOfProperty) {
+        this.typeOfProperty = typeOfProperty;
     }
-    public boolean isPrivateOrApartment(){
+
+    public boolean isPrivateOrApartment() {
         return this.privateOrApartment;
     }
-    public void setPrivateOrApartment(boolean privateOrApartment){
-        this.privateOrApartment=privateOrApartment;
+
+    public void setPrivateOrApartment(boolean privateOrApartment) {
+        this.privateOrApartment = privateOrApartment;
     }
-    public boolean isForRent(){
+
+    public boolean isForRent() {
         return this.forRent;
     }
-    public void setForRent(boolean forRent){
-        this.forRent=forRent;
+
+    public void setForRent(boolean forRent) {
+        this.forRent = forRent;
     }
-    public int getHouseNumber(){
+
+    public int getHouseNumber() {
         return this.houseNumber;
     }
-    public void setHouseNumber(int houseNumber){
-        this.houseNumber=houseNumber;
+
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
     }
-    public int getFloorNumber(){
+
+    public int getFloorNumber() {
         return this.floorNumber;
     }
-    public void setFloorNumber(int floorNumber){
-        this.floorNumber=floorNumber;
+
+    public void setFloorNumber(int floorNumber) {
+        this.floorNumber = floorNumber;
     }
-    public User getUserWhoPostedTheProperty(){
+
+    public User getUserWhoPostedTheProperty() {
         return this.userWhoPostedTheProperty;
     }
-    public void setUserWhoPostedTheProperty(User userWhoPostedTheProperty){
-        this.userWhoPostedTheProperty=userWhoPostedTheProperty;
+
+    public void setUserWhoPostedTheProperty(User userWhoPostedTheProperty) {
+        this.userWhoPostedTheProperty = userWhoPostedTheProperty;
     }
-    public String toString(){
-        return this.typeOfProperty+"-"+(this.forRent ? "for rent":"for sale")+": "+this.numOfRooms+" rooms"+(this.privateOrApartment? ", floor "+this.floorNumber+".":".")+
-                "\nPrice: "+this.price+"$" +
-                "\nContact info: "+this.userWhoPostedTheProperty;
+
+    public String toString() {
+        return this.typeOfProperty + "-" + (this.forRent ? "for rent" : "for sale") + ": " + this.numOfRooms + " rooms" + (this.privateOrApartment ? ", floor " + this.floorNumber + "." : ".") +
+                "\nPrice: " + this.price + "$" +
+                "\nContact info: " + this.userWhoPostedTheProperty;
     }
 }
