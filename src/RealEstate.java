@@ -202,7 +202,7 @@ public class RealEstate {
                     printAllProperties(this.properties);
                     break;
                 case VIEW_ALL_SELF_POSTED_PROPERTY:
-                    printAllProperties(user);
+                    printAllUserProperties(user);
                     break;
                 case PROPERTY_SEARCH_BY_PARAMETER:
                     search();
@@ -435,10 +435,6 @@ public class RealEstate {
                 }
             }
         }
-    }
-
-    private void printAllProperties(User user) {
-        printAllUserProperties(user);
     }
 
     private void printAllProperties(Property[] properties1) {
