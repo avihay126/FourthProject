@@ -353,16 +353,24 @@ public class RealEstate {
                 } else {
                     typeOfProperty = "Penthouse";
                 }
-                System.out.println("Choose floor:");
-                floorNumber = scanner.nextInt();
+                do {
+                    System.out.println("Choose floor:");
+                    floorNumber = scanner.nextInt();
+                }while (floorNumber<0);
             } else if (choose == CHOOSE_PRIVATE_HOUSE) {
                 typeOfProperty = "Private house";
             }
         } while (choose < CHOOSE_REGULAR_APARTMENT || choose > CHOOSE_PRIVATE_HOUSE);
-        System.out.println("Number of rooms:");
-        int numOfRooms = scanner.nextInt();
-        System.out.println("House number");
-        int houseNumber = scanner.nextInt();
+        int numOfRooms;
+        do {
+            System.out.println("Number of rooms:");
+            numOfRooms = scanner.nextInt();
+        }while (numOfRooms<0);
+        int houseNumber;
+        do {
+            System.out.println("House number");
+            houseNumber = scanner.nextInt();
+        }while (houseNumber<0);
         System.out.println("0-For rent:\nOther number-For sale:");
         int option = scanner.nextInt();
         boolean forRent;
@@ -371,8 +379,11 @@ public class RealEstate {
         } else {
             forRent = false;
         }
-        System.out.println("Price:");
-        int price = scanner.nextInt();
+        int price;
+        do{
+            System.out.println("Price:");
+            price = scanner.nextInt();
+        }while (price<0);
         Property property = new Property(address, numOfRooms, price, typeOfProperty, privateOrApartment, forRent, houseNumber, floorNumber, user);
         return property;
     }
@@ -512,7 +523,7 @@ public class RealEstate {
             minPrice = scanner.nextInt();
             System.out.print("Maximum price: ");
             maxPrice = scanner.nextInt();
-        } while (((maxPrice < MIN_PRICE || minPrice < MIN_PRICE) && (maxPrice != NO_TO_USE && minPrice != NO_TO_USE)) && maxPrice < minPrice);
+        } while (((maxPrice < MIN_PRICE || minPrice < MIN_PRICE) && (maxPrice != NO_TO_USE && minPrice != NO_TO_USE)) || ((maxPrice < minPrice)&&maxPrice!=NO_TO_USE));
         if (minPrice != NO_TO_USE && maxPrice != NO_TO_USE) {
             for (int i = 0; i < searchArray.length; i++) {
                 if (searchArray[i].getPrice() < minPrice || searchArray[i].getPrice() > maxPrice) {
